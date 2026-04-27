@@ -232,15 +232,23 @@ const speedDistanceFactors = {
     feet_per_hour: 0.3048
 };
 
-// Speed unit time names for display
-const speedTimeNames = {
-    meter_per_second: 'second',
-    kilometer_per_hour: 'hour',
-    miles_per_hour: 'hour',
-    feet_per_second: 'second',
-    knots: 'hour',
-    feet_per_hour: 'hour'
-};
+// Update unit selector visibility based on conversion type
+function updateUnitSelectors() {
+    const conversionType = document.querySelector('input[name="speedConversionType"]:checked').value;
+    const distanceSelector = document.querySelector('.distance-units');
+    const timeSelector = document.querySelector('.time-units');
+    
+    if (conversionType === 'unit_per_seidl') {
+        distanceSelector.style.display = 'flex';
+        timeSelector.style.display = 'none';
+    } else if (conversionType === 'seidls_per_unit') {
+        distanceSelector.style.display = 'none';
+        timeSelector.style.display = 'flex';
+    } else {
+        distanceSelector.style.display = 'none';
+        timeSelector.style.display = 'none';
+    }
+}
 
 // Speed converter
 function convertSpeed() {
@@ -261,20 +269,23 @@ function convertSpeed() {
         const seidlsPerSeidlTime = metersPerSecond * (SEIDL_TIME_SECONDS / SEIDL_LENGTH_METERS);
         resultEl.textContent = `${formatNumber(seidlsPerSeidlTime)} Seidls(5ft8) per Seidls(36 yrs)`;
     } else if (conversionType === 'seidls_per_unit') {
-        // Seidls per original unit (e.g., Seidls per hour)
-        const distanceFactor = speedDistanceFactors[unit];
-        const distancePerTimeUnit = value * distanceFactor; // meters
-        const seidlsPerTimeUnit = distancePerTimeUnit / SEIDL_LENGTH_METERS;
-        const timeUnitName = speedTimeNames[unit];
+        // Seidls per normal unit - show how many Seidls equal 1 time unit
+        const normalTimeUnit = document.getElementById('speedNormalTimeUnit').value;
+        const timeComponent = timeFactors[normalTimeUnit];
+        const seidlsPerTimeUnit = timeComponent / SEIDL_TIME_SECONDS;
+        const timeUnitName = displayNames[normalTimeUnit] || normalTimeUnit;
+        
         resultEl.textContent = `${formatNumber(seidlsPerTimeUnit)} Seidls per ${timeUnitName}`;
     } else if (conversionType === 'unit_per_seidl') {
-        // Original unit per Seidl (e.g., mph per Seidl)
-        const distanceFactor = speedDistanceFactors[unit];
-        const distancePerTimeUnit = value * distanceFactor; // meters
-        const seidlsPerTimeUnit = distancePerTimeUnit / SEIDL_LENGTH_METERS;
-        const unitPerSeidl = value / seidlsPerTimeUnit;
-        const unitName = displayNames[unit];
-        resultEl.textContent = `${formatNumber(unitPerSeidl)} ${unitName} per Seidl(5ft8)`;
+        // Normal unit per Seidl - show distance units per Seidl
+        const normalDistanceUnit = document.getElementById('speedNormalDistanceUnit').value;
+        
+        // How many distance units equal 1 Seidl length
+        const metersPerNormalUnit = distanceFactors[normalDistanceUnit];
+        const normalUnitsPerSeidlLength = SEIDL_LENGTH_METERS / metersPerNormalUnit;
+        const distanceUnitName = displayNames[normalDistanceUnit] || normalDistanceUnit;
+        
+        resultEl.textContent = `${formatNumber(normalUnitsPerSeidlLength)} ${distanceUnitName} per Seidl`;
     }
     
     resultEl.parentElement.classList.add('updating');
@@ -353,8 +364,18 @@ document.getElementById('speedUnit').addEventListener('change', convertSpeed);
 
 // Speed conversion type radio buttons
 document.querySelectorAll('input[name="speedConversionType"]').forEach(radio => {
-    radio.addEventListener('change', convertSpeed);
+    radio.addEventListener('change', () => {
+        updateUnitSelectors();
+        convertSpeed();
+    });
 });
+
+// Speed normal unit selectors
+document.getElementById('speedNormalDistanceUnit').addEventListener('change', convertSpeed);
+document.getElementById('speedNormalTimeUnit').addEventListener('change', convertSpeed);
+
+// Initialize unit selectors
+updateUnitSelectors();
 
 document.getElementById('timeValue').addEventListener('input', convertTime);
 document.getElementById('timeUnit').addEventListener('change', convertTime);

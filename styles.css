@@ -266,6 +266,70 @@ footer p {
     height: 18px;
 }
 
+/* Normal unit selector */
+.normal-unit-selector {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    padding: 12px;
+    background: #e8f4fd;
+    border-radius: 8px;
+    font-size: 0.95em;
+}
+
+.unit-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.unit-selector label {
+    font-weight: 600;
+    color: #333;
+    white-space: nowrap;
+}
+
+.unit-selector select {
+    padding: 8px 12px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.9em;
+    background: white;
+    cursor: pointer;
+    min-width: 120px;
+}
+
+.distance-units {
+    display: none;
+}
+
+.time-units {
+    display: flex;
+}
+
+@media (max-width: 768px) {
+    .normal-unit-selector {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .unit-selector {
+        justify-content: center;
+    }
+    
+    .unit-selector label {
+        text-align: center;
+        min-width: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    .speed-options {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
 @media (max-width: 480px) {
     .speed-options {
         flex-direction: column;
