@@ -42,6 +42,15 @@ const speedFactors = {
     feet_per_hour: 0.3048 / 3600
 };
 
+// Conversion factors for acceleration (to meters per second squared)
+const accelerationFactors = {
+    meter_per_second_squared: 1,
+    foot_per_second_squared: 0.3048,
+    kilometer_per_hour_squared: 1 / 12960, // (1/3.6)²
+    mile_per_hour_squared: 0.44704 / 3600, // 0.44704 / 3600
+    gal: 0.01 // Gal = cm/s² = 0.01 m/s²
+};
+
 // Conversion factors for time (to seconds)
 const timeFactors = {
     second: 1,
@@ -234,19 +243,36 @@ const speedDistanceFactors = {
 
 // Update unit selector visibility based on conversion type
 function updateUnitSelectors() {
-    const conversionType = document.querySelector('input[name="speedConversionType"]:checked').value;
-    const distanceSelector = document.querySelector('.distance-units');
-    const timeSelector = document.querySelector('.time-units');
+    // Speed selectors
+    const speedConversionType = document.querySelector('input[name="speedConversionType"]:checked').value;
+    const speedDistanceSelector = document.querySelector('.distance-units');
+    const speedTimeSelector = document.querySelector('.time-units');
     
-    if (conversionType === 'unit_per_seidl') {
-        distanceSelector.style.display = 'flex';
-        timeSelector.style.display = 'none';
-    } else if (conversionType === 'seidls_per_unit') {
-        distanceSelector.style.display = 'none';
-        timeSelector.style.display = 'flex';
+    if (speedConversionType === 'unit_per_seidl') {
+        speedDistanceSelector.style.display = 'flex';
+        speedTimeSelector.style.display = 'none';
+    } else if (speedConversionType === 'seidls_per_unit') {
+        speedDistanceSelector.style.display = 'none';
+        speedTimeSelector.style.display = 'flex';
     } else {
-        distanceSelector.style.display = 'none';
-        timeSelector.style.display = 'none';
+        speedDistanceSelector.style.display = 'none';
+        speedTimeSelector.style.display = 'none';
+    }
+    
+    // Acceleration selectors
+    const accelerationConversionType = document.querySelector('input[name="accelerationConversionType"]:checked').value;
+    const accelerationDistanceSelector = document.querySelectorAll('.distance-units')[1];
+    const accelerationTimeSelector = document.querySelectorAll('.time-units')[1];
+    
+    if (accelerationConversionType === 'unit_per_seidl') {
+        accelerationDistanceSelector.style.display = 'flex';
+        accelerationTimeSelector.style.display = 'none';
+    } else if (accelerationConversionType === 'seidls_per_unit') {
+        accelerationDistanceSelector.style.display = 'none';
+        accelerationTimeSelector.style.display = 'flex';
+    } else {
+        accelerationDistanceSelector.style.display = 'none';
+        accelerationTimeSelector.style.display = 'none';
     }
 }
 
@@ -286,6 +312,48 @@ function convertSpeed() {
         const distanceUnitName = displayNames[normalDistanceUnit] || normalDistanceUnit;
         
         resultEl.textContent = `${formatNumber(normalUnitsPerSeidlLength)} ${distanceUnitName} per Seidl`;
+    }
+    
+    resultEl.parentElement.classList.add('updating');
+    setTimeout(() => resultEl.parentElement.classList.remove('updating'), 300);
+}
+
+// Acceleration converter
+function convertAcceleration() {
+    const value = parseFloat(document.getElementById('accelerationValue').value);
+    const unit = document.getElementById('accelerationUnit').value;
+    const resultEl = document.getElementById('accelerationResult');
+    const conversionType = document.querySelector('input[name="accelerationConversionType"]:checked').value;
+    
+    if (!value || value === 0) {
+        resultEl.textContent = 'Enter a value to convert';
+        return;
+    }
+    
+    const metersPerSecondSquared = value * accelerationFactors[unit];
+    
+    if (conversionType === 'seidl_per_seidl') {
+        // Seidls per Seidl (both distance and time as Seidls)
+        const seidlsPerSeidlTimeSquared = metersPerSecondSquared * (SEIDL_TIME_SECONDS * SEIDL_TIME_SECONDS / SEIDL_LENGTH_METERS);
+        resultEl.textContent = `${formatNumber(seidlsPerSeidlTimeSquared)} Seidls per Seidls²`;
+    } else if (conversionType === 'seidls_per_unit') {
+        // Seidls per normal unit - show how many Seidls equal 1 time unit²
+        const normalTimeUnit = document.getElementById('accelerationNormalTimeUnit').value;
+        const timeComponent = timeFactors[normalTimeUnit];
+        const seidlsPerTimeUnitSquared = (timeComponent * timeComponent) / (SEIDL_TIME_SECONDS * SEIDL_TIME_SECONDS);
+        const timeUnitName = displayNames[normalTimeUnit] || normalTimeUnit;
+        
+        resultEl.textContent = `${formatNumber(seidlsPerTimeUnitSquared)} Seidls per ${timeUnitName}²`;
+    } else if (conversionType === 'unit_per_seidl') {
+        // Normal unit per Seidl - show distance units per Seidl² for acceleration
+        const normalDistanceUnit = document.getElementById('accelerationNormalDistanceUnit').value;
+        
+        // How many distance units equal 1 Seidl length
+        const metersPerNormalUnit = distanceFactors[normalDistanceUnit];
+        const normalUnitsPerSeidlLength = SEIDL_LENGTH_METERS / metersPerNormalUnit;
+        const distanceUnitName = displayNames[normalDistanceUnit] || normalDistanceUnit;
+        
+        resultEl.textContent = `${formatNumber(normalUnitsPerSeidlLength)} ${distanceUnitName} per Seidl²`;
     }
     
     resultEl.parentElement.classList.add('updating');
@@ -374,8 +442,21 @@ document.querySelectorAll('input[name="speedConversionType"]').forEach(radio => 
 document.getElementById('speedNormalDistanceUnit').addEventListener('change', convertSpeed);
 document.getElementById('speedNormalTimeUnit').addEventListener('change', convertSpeed);
 
-// Initialize unit selectors
-updateUnitSelectors();
+// Acceleration events
+document.getElementById('accelerationValue').addEventListener('input', convertAcceleration);
+document.getElementById('accelerationUnit').addEventListener('change', convertAcceleration);
+
+// Acceleration conversion type radio buttons
+document.querySelectorAll('input[name="accelerationConversionType"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+        updateUnitSelectors();
+        convertAcceleration();
+    });
+});
+
+// Acceleration normal unit selectors
+document.getElementById('accelerationNormalDistanceUnit').addEventListener('change', convertAcceleration);
+document.getElementById('accelerationNormalTimeUnit').addEventListener('change', convertAcceleration);
 
 document.getElementById('timeValue').addEventListener('input', convertTime);
 document.getElementById('timeUnit').addEventListener('change', convertTime);

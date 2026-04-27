@@ -134,6 +134,60 @@
                     </div>
                 </div>
 
+                <!-- Acceleration Converter -->
+                <div class="converter-card">
+                    <h2>🚀 Acceleration Converter</h2>
+                    <div class="input-group">
+                        <input 
+                            type="number" 
+                            id="accelerationValue" 
+                            placeholder="Enter value" 
+                            step="any"
+                        >
+                        <select id="accelerationUnit">
+                            <option value="meter_per_second_squared">m/s²</option>
+                            <option value="foot_per_second_squared">ft/s²</option>
+                            <option value="kilometer_per_hour_squared">km/h²</option>
+                            <option value="mile_per_hour_squared">mph²</option>
+                            <option value="gal">Gal (cm/s²)</option>
+                        </select>
+                    </div>
+                    <div class="speed-options">
+                        <label><input type="radio" name="accelerationConversionType" value="seidls_per_unit" checked> Seidls per normal unit</label>
+                        <label><input type="radio" name="accelerationConversionType" value="unit_per_seidl"> Normal unit per Seidl</label>
+                        <label><input type="radio" name="accelerationConversionType" value="seidl_per_seidl"> Seidl per Seidl</label>
+                    </div>
+                    <div class="normal-unit-selector">
+                        <div class="unit-selector distance-units">
+                            <label for="accelerationNormalDistanceUnit">Distance Unit:</label>
+                            <select id="accelerationNormalDistanceUnit">
+                                <option value="meter">Meters</option>
+                                <option value="kilometer">Kilometers</option>
+                                <option value="foot">Feet</option>
+                                <option value="inch">Inches</option>
+                                <option value="yard">Yards</option>
+                                <option value="mile" selected>Miles</option>
+                                <option value="nautical_mile">Nautical Miles</option>
+                            </select>
+                        </div>
+                        <div class="unit-selector time-units">
+                            <label for="accelerationNormalTimeUnit">Time Unit:</label>
+                            <select id="accelerationNormalTimeUnit">
+                                <option value="second">Seconds</option>
+                                <option value="minute">Minutes</option>
+                                <option value="hour" selected>Hours</option>
+                                <option value="day">Days</option>
+                                <option value="week">Weeks</option>
+                                <option value="month">Months</option>
+                                <option value="year">Years</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="result">
+                        <p id="accelerationResult" class="result-text">Enter a value to convert</p>
+                    </div>
+                </div>
+
                 <!-- Time Converter -->
                 <div class="converter-card">
                     <h2>⏱️ Time Converter</h2>
@@ -160,59 +214,59 @@
                         <p id="timeResult" class="result-text">Enter a value to convert</p>
                     </div>
                 </div>
-            </div>
 
-            <!-- Volume Converter -->
-            <div class="converter-card">
-                <h2>🌊 Volume Converter</h2>
-                <div class="input-group">
-                    <input 
-                        type="number" 
-                        id="volumeValue" 
-                        placeholder="Enter value" 
-                        step="any"
-                    >
-                    <select id="volumeUnit">
-                        <option value="cubic_meter">Cubic Meters</option>
-                        <option value="cubic_centimeter">Cubic Centimeters</option>
-                        <option value="liter">Liters</option>
-                        <option value="milliliter">Milliliters</option>
-                        <option value="gallon_us">US Gallons</option>
-                        <option value="gallon_imperial">Imperial Gallons</option>
-                        <option value="cubic_foot">Cubic Feet</option>
-                        <option value="cubic_inch">Cubic Inches</option>
-                        <option value="fluid_ounce_us">US Fluid Ounces</option>
-                        <option value="pint">Pints</option>
-                    </select>
+                <!-- Volume Converter -->
+                <div class="converter-card">
+                    <h2>🌊 Volume Converter</h2>
+                    <div class="input-group">
+                        <input 
+                            type="number" 
+                            id="volumeValue" 
+                            placeholder="Enter value" 
+                            step="any"
+                        >
+                        <select id="volumeUnit">
+                            <option value="cubic_meter">Cubic Meters</option>
+                            <option value="cubic_centimeter">Cubic Centimeters</option>
+                            <option value="liter">Liters</option>
+                            <option value="milliliter">Milliliters</option>
+                            <option value="gallon_us">US Gallons</option>
+                            <option value="gallon_imperial">Imperial Gallons</option>
+                            <option value="cubic_foot">Cubic Feet</option>
+                            <option value="cubic_inch">Cubic Inches</option>
+                            <option value="fluid_ounce_us">US Fluid Ounces</option>
+                            <option value="pint">Pints</option>
+                        </select>
+                    </div>
+                    <div class="result">
+                        <p id="volumeResult" class="result-text">Enter a value to convert</p>
+                    </div>
                 </div>
-                <div class="result">
-                    <p id="volumeResult" class="result-text">Enter a value to convert</p>
-                </div>
-            </div>
 
-            <!-- Mass/Weight Converter -->
-            <div class="converter-card">
-                <h2>⚖️ Mass/Weight Converter</h2>
-                <div class="input-group">
-                    <input 
-                        type="number" 
-                        id="massValue" 
-                        placeholder="Enter value" 
-                        step="any"
-                    >
-                    <select id="massUnit">
-                        <option value="kilogram">Kilograms</option>
-                        <option value="gram">Grams</option>
-                        <option value="milligram">Milligrams</option>
-                        <option value="pound">Pounds</option>
-                        <option value="ounce">Ounces</option>
-                        <option value="ton_metric">Metric Tons</option>
-                        <option value="ton_us">US Tons</option>
-                        <option value="stone">Stones</option>
-                    </select>
-                </div>
-                <div class="result">
-                    <p id="massResult" class="result-text">Enter a value to convert</p>
+                <!-- Mass/Weight Converter -->
+                <div class="converter-card">
+                    <h2>⚖️ Mass/Weight Converter</h2>
+                    <div class="input-group">
+                        <input 
+                            type="number" 
+                            id="massValue" 
+                            placeholder="Enter value" 
+                            step="any"
+                        >
+                        <select id="massUnit">
+                            <option value="kilogram">Kilograms</option>
+                            <option value="gram">Grams</option>
+                            <option value="milligram">Milligrams</option>
+                            <option value="pound">Pounds</option>
+                            <option value="ounce">Ounces</option>
+                            <option value="ton_metric">Metric Tons</option>
+                            <option value="ton_us">US Tons</option>
+                            <option value="stone">Stones</option>
+                        </select>
+                    </div>
+                    <div class="result">
+                        <p id="massResult" class="result-text">Enter a value to convert</p>
+                    </div>
                 </div>
             </div>
         </main>
