@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Units to Seidls Converter</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚖️ Units to Seidls Converter</h1>
+            <p class="subtitle">Convert any distance, area, or speed to Seidls</p>
+            <div class="definitions">
+                <div class="def-item">
+                    <strong>1 Seidl (Length):</strong> 5'8" (68 inches / 1.7272 meters)
+                </div>
+                <div class="def-item">
+                    <strong>1 Seidl (Time):</strong> 36 years
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="converter-section">
+                <!-- Distance Converter -->
+                <div class="converter-card">
+                    <h2>📏 Distance/Length Converter</h2>
+                    <div class="input-group">
+                        <input 
+                            type="number" 
+                            id="distanceValue" 
+                            placeholder="Enter value" 
+                            step="any"
+                        >
+                        <select id="distanceUnit">
+                            <option value="meter">Meters</option>
+                            <option value="kilometer">Kilometers</option>
+                            <option value="centimeter">Centimeters</option>
+                            <option value="millimeter">Millimeters</option>
+                            <option value="foot">Feet</option>
+                            <option value="inch">Inches</option>
+                            <option value="yard">Yards</option>
+                            <option value="mile">Miles</option>
+                            <option value="nautical_mile">Nautical Miles</option>
+                            <option value="micrometer">Micrometers</option>
+                            <option value="nanometer">Nanometers</option>
+                        </select>
+                    </div>
+                    <div class="result">
+                        <p id="distanceResult" class="result-text">Enter a value to convert</p>
+                    </div>
+                </div>
+
+                <!-- Area Converter -->
+                <div class="converter-card">
+                    <h2>📐 Area Converter</h2>
+                    <div class="input-group">
+                        <input 
+                            type="number" 
+                            id="areaValue" 
+                            placeholder="Enter value" 
+                            step="any"
+                        >
+                        <select id="areaUnit">
+                            <option value="square_meter">Square Meters</option>
+                            <option value="square_kilometer">Square Kilometers</option>
+                            <option value="square_centimeter">Square Centimeters</option>
+                            <option value="hectare">Hectares</option>
+                            <option value="square_foot">Square Feet</option>
+                            <option value="square_inch">Square Inches</option>
+                            <option value="square_yard">Square Yards</option>
+                            <option value="square_mile">Square Miles</option>
+                            <option value="acre">Acres</option>
+                        </select>
+                    </div>
+                    <div class="result">
+                        <p id="areaResult" class="result-text">Enter a value to convert</p>
+                    </div>
+                </div>
+
+                <!-- Speed Converter -->
+                <div class="converter-card">
+                    <h2>⚡ Speed Converter</h2>
+                    <div class="input-group">
+                        <input 
+                            type="number" 
+                            id="speedValue" 
+                            placeholder="Enter value" 
+                            step="any"
+                        >
+                        <select id="speedUnit">
+                            <option value="meter_per_second">Meters/Second</option>
+                            <option value="kilometer_per_hour">Kilometers/Hour</option>
+                            <option value="miles_per_hour">Miles/Hour</option>
+                            <option value="feet_per_second">Feet/Second</option>
+                            <option value="knots">Knots</option>
+                            <option value="feet_per_hour">Feet/Hour</option>
+                        </select>
+                    </div>
+                    <div class="result">
+                        <p id="speedResult" class="result-text">Enter a value to convert</p>
+                    </div>
+                </div>
+
+                <!-- Time Converter -->
+                <div class="converter-card">
+                    <h2>⏱️ Time Converter</h2>
+                    <div class="input-group">
+                        <input 
+                            type="number" 
+                            id="timeValue" 
+                            placeholder="Enter value" 
+                            step="any"
+                        >
+                        <select id="timeUnit">
+                            <option value="second">Seconds</option>
+                            <option value="minute">Minutes</option>
+                            <option value="hour">Hours</option>
+                            <option value="day">Days</option>
+                            <option value="week">Weeks</option>
+                            <option value="month">Months (30 days)</option>
+                            <option value="year">Years</option>
+                            <option value="decade">Decades</option>
+                            <option value="century">Centuries</option>
+                        </select>
+                    </div>
+                    <div class="result">
+                        <p id="timeResult" class="result-text">Enter a value to convert</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Volume Converter -->
+            <div class="converter-card">
+                <h2>🌊 Volume Converter</h2>
+                <div class="input-group">
+                    <input 
+                        type="number" 
+                        id="volumeValue" 
+                        placeholder="Enter value" 
+                        step="any"
+                    >
+                    <select id="volumeUnit">
+                        <option value="cubic_meter">Cubic Meters</option>
+                        <option value="cubic_centimeter">Cubic Centimeters</option>
+                        <option value="liter">Liters</option>
+                        <option value="milliliter">Milliliters</option>
+                        <option value="gallon_us">US Gallons</option>
+                        <option value="gallon_imperial">Imperial Gallons</option>
+                        <option value="cubic_foot">Cubic Feet</option>
+                        <option value="cubic_inch">Cubic Inches</option>
+                        <option value="fluid_ounce_us">US Fluid Ounces</option>
+                        <option value="pint">Pints</option>
+                    </select>
+                </div>
+                <div class="result">
+                    <p id="volumeResult" class="result-text">Enter a value to convert</p>
+                </div>
+            </div>
+
+            <!-- Mass/Weight Converter -->
+            <div class="converter-card">
+                <h2>⚖️ Mass/Weight Converter</h2>
+                <div class="input-group">
+                    <input 
+                        type="number" 
+                        id="massValue" 
+                        placeholder="Enter value" 
+                        step="any"
+                    >
+                    <select id="massUnit">
+                        <option value="kilogram">Kilograms</option>
+                        <option value="gram">Grams</option>
+                        <option value="milligram">Milligrams</option>
+                        <option value="pound">Pounds</option>
+                        <option value="ounce">Ounces</option>
+                        <option value="ton_metric">Metric Tons</option>
+                        <option value="ton_us">US Tons</option>
+                        <option value="stone">Stones</option>
+                    </select>
+                </div>
+                <div class="result">
+                    <p id="massResult" class="result-text">Enter a value to convert</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>💡 Note: Values are converted to Seidls (length) or Seidls (time) depending on the unit type.</p>
+            <p>Built with conversion knowledge • 1 Seidl = 1.7272 meters (length) or 36 years (time)</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
