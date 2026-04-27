@@ -212,11 +212,42 @@ function convertArea() {
     setTimeout(() => resultEl.parentElement.classList.remove('updating'), 300);
 }
 
+// Speed unit time components (in seconds)
+const speedTimeComponents = {
+    meter_per_second: 1,
+    kilometer_per_hour: 3600,
+    miles_per_hour: 3600,
+    feet_per_second: 1,
+    knots: 3600,
+    feet_per_hour: 3600
+};
+
+// Speed unit distance factors (to meters)
+const speedDistanceFactors = {
+    meter_per_second: 1,
+    kilometer_per_hour: 1000,
+    miles_per_hour: 1609.34,
+    feet_per_second: 0.3048,
+    knots: 1852,
+    feet_per_hour: 0.3048
+};
+
+// Speed unit time names for display
+const speedTimeNames = {
+    meter_per_second: 'second',
+    kilometer_per_hour: 'hour',
+    miles_per_hour: 'hour',
+    feet_per_second: 'second',
+    knots: 'hour',
+    feet_per_hour: 'hour'
+};
+
 // Speed converter
 function convertSpeed() {
     const value = parseFloat(document.getElementById('speedValue').value);
     const unit = document.getElementById('speedUnit').value;
     const resultEl = document.getElementById('speedResult');
+    const conversionType = document.querySelector('input[name="speedConversionType"]:checked').value;
     
     if (!value || value === 0) {
         resultEl.textContent = 'Enter a value to convert';
@@ -224,9 +255,28 @@ function convertSpeed() {
     }
     
     const metersPerSecond = value * speedFactors[unit];
-    const seidlsPerSeidlTime = metersPerSecond * (SEIDL_TIME_SECONDS / SEIDL_LENGTH_METERS);
     
-    resultEl.textContent = `${formatNumber(seidlsPerSeidlTime)} Seidls(5ft8) per Seidls(36 yrs)`;
+    if (conversionType === 'seidl_per_seidl') {
+        // Seidls per Seidl (both distance and time as Seidls)
+        const seidlsPerSeidlTime = metersPerSecond * (SEIDL_TIME_SECONDS / SEIDL_LENGTH_METERS);
+        resultEl.textContent = `${formatNumber(seidlsPerSeidlTime)} Seidls(5ft8) per Seidls(36 yrs)`;
+    } else if (conversionType === 'seidls_per_unit') {
+        // Seidls per original unit (e.g., Seidls per hour)
+        const distanceFactor = speedDistanceFactors[unit];
+        const distancePerTimeUnit = value * distanceFactor; // meters
+        const seidlsPerTimeUnit = distancePerTimeUnit / SEIDL_LENGTH_METERS;
+        const timeUnitName = speedTimeNames[unit];
+        resultEl.textContent = `${formatNumber(seidlsPerTimeUnit)} Seidls per ${timeUnitName}`;
+    } else if (conversionType === 'unit_per_seidl') {
+        // Original unit per Seidl (e.g., mph per Seidl)
+        const distanceFactor = speedDistanceFactors[unit];
+        const distancePerTimeUnit = value * distanceFactor; // meters
+        const seidlsPerTimeUnit = distancePerTimeUnit / SEIDL_LENGTH_METERS;
+        const unitPerSeidl = value / seidlsPerTimeUnit;
+        const unitName = displayNames[unit];
+        resultEl.textContent = `${formatNumber(unitPerSeidl)} ${unitName} per Seidl(5ft8)`;
+    }
+    
     resultEl.parentElement.classList.add('updating');
     setTimeout(() => resultEl.parentElement.classList.remove('updating'), 300);
 }
@@ -300,6 +350,11 @@ document.getElementById('areaUnit').addEventListener('change', convertArea);
 
 document.getElementById('speedValue').addEventListener('input', convertSpeed);
 document.getElementById('speedUnit').addEventListener('change', convertSpeed);
+
+// Speed conversion type radio buttons
+document.querySelectorAll('input[name="speedConversionType"]').forEach(radio => {
+    radio.addEventListener('change', convertSpeed);
+});
 
 document.getElementById('timeValue').addEventListener('input', convertTime);
 document.getElementById('timeUnit').addEventListener('change', convertTime);

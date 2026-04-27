@@ -239,3 +239,36 @@ footer p {
 .result.updating {
     animation: resultPulse 0.3s ease;
 }
+
+/* Speed conversion options */
+.speed-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 12px;
+    background: #f0f0f0;
+    border-radius: 8px;
+}
+
+.speed-options label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.95em;
+    user-select: none;
+}
+
+.speed-options input[type="radio"] {
+    margin-right: 8px;
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+}
+
+@media (max-width: 480px) {
+    .speed-options {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
