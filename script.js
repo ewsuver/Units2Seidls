@@ -224,9 +224,9 @@ function convertSpeed() {
     }
     
     const metersPerSecond = value * speedFactors[unit];
-    const seidlsPerTime = metersPerSecond / SEIDL_LENGTH_METERS * SEIDL_TIME_SECONDS;
+    const seidlsPerSeidlTime = metersPerSecond * (SEIDL_TIME_SECONDS / SEIDL_LENGTH_METERS);
     
-    resultEl.textContent = `${formatNumber(seidlsPerTime)} Seidls/time (36 years)`;
+    resultEl.textContent = `${formatNumber(seidlsPerSeidlTime)} Seidls(5ft8) per Seidls(36 yrs)`;
     resultEl.parentElement.classList.add('updating');
     setTimeout(() => resultEl.parentElement.classList.remove('updating'), 300);
 }
